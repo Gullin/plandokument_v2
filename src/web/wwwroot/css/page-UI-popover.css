@@ -1,0 +1,33 @@
+﻿/***************************************************/
+/*                                                 */
+/*               Popover för Thumnails             */
+/*                                                 */
+/***************************************************/
+
+.popover-header {
+    font-size: 0.9em;
+    font-weight: bold;
+    text-align: center;
+}
+.popover-content-big-image {
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    /*background: url('../lib/octicons-9.1.1/screen-full.svg') no-repeat center center;*/
+    content: url('../lib/octicons-9.1.1/screen-full.svg?height=2');
+    /* background-image: url('../lib/octicons-9.1.1/screen-full.svg');
+    background-size: contain;
+    background-repeat: no-repeat; */
+    background-color: rgba(255, 255, 255, 0.8);
+    height: 32px;
+    width: 32px;
+    display: inline-block;
+}
+.popover-content-big-image:hover {
+    cursor: pointer;
+}
+
+.modal-wide {
+    max-width: 80%;
+}
+/* ######################################## */

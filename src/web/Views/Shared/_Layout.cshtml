@@ -1,0 +1,112 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <base href="~/" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/x-icon" href="~/images/favicon.ico" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap-icons-1.13.1/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-4.3.1-dist/css/bootstrap.min.css" />
+    @RenderSection("StylesFiles", required: false)
+
+
+    <link rel="stylesheet" href="~/css/reset.css" />
+    <link rel="stylesheet" href="~/css/page-UI-core.css" />
+    @* <link rel="stylesheet" href="~/css/page-UI-help.css" /> *@
+    <link rel="stylesheet" href="~/css/page-UI-plan.css" />
+    <link rel="stylesheet" href="~/css/page-UI-popover.css" />
+    <link rel="stylesheet" href="~/css/file-images-li.css" />
+    <link rel="stylesheet" href="~/css/page-UI-map.css" />
+
+    @RenderSection("Styles", required: false)
+
+
+</head>
+<body>
+    <div id="versionWrapper">
+        <a asp-route="Version" title="Om versioner och historik">
+            @(string.IsNullOrEmpty(ViewData["VersionInfo"] as string) ? "N/A" : ViewData["VersionInfo"])
+        </a>
+    </div>
+
+    <div>
+        @RenderBody()
+    </div>
+@* 
+    @{
+        var principal = ViewContext.HttpContext.User;
+    }
+    <p>IsAuthenticated: @(principal?.Identity?.IsAuthenticated.ToString() ?? "null") — Name: @(principal?.Identity?.Name ?? "null")</p>
+ *@
+
+    <div id="feedback">
+        @if ((await AuthorizationService.AuthorizeAsync(ViewContext.HttpContext.User, "AdOrUserAdmins")).Succeeded)
+        {
+            <a asp-route="Admin" title="Administrering av innehåll">
+                <i id="admin" class="bi bi-motherboard"></i>
+            </a>
+        }
+        <a asp-route="Karta" title="Visar alla planer i en interaktiv karta">
+            <i id="map" class="bi bi-compass"></i>
+        </a>
+        <a asp-route="DokumentAlla" title="Lista alla planer från Planregistret">
+            <i id="allPlanes" class="bi bi-list"></i>
+        </a>
+        <a asp-route="Om" title="Beskrivning av funktionalitet och utseende">
+            <i id="info" class="bi bi-info-circle"></i>
+        </a>
+        <a href="mailto:gis@landskrona.se?Subject=Webbapplikation Plandokument" title="Lämna synpunkter eller rapportera fel">
+            <i id="mail" class="bi bi-envelope"></i>
+        </a>
+    </div>
+
+    <div id="copyrightWrapper">
+        @(string.IsNullOrEmpty(ViewData["Copyright"] as string) ? "N/A" : ViewData["Copyright"])
+    </div>
+
+
+    @RenderSection("Config", required: false)
+    <script type="text/javascript">
+        /**
+        Hämtar giltiga dokumenttyper
+        */
+        async function getDocumentTypes() {
+            return await fetch(Lkr.Plan.Dokument.resolvedClientUrl + '/api/documenttypes')
+                .then(response => response.json())
+                .then(data => {
+                    return data;
+            })
+            .catch(error => {
+                console.error('Error fetching document types:', error);
+                return null;
+            });
+        };
+
+        // Hämtar dokumenttyper om dessa inte redan existerar
+        if (!Lkr.Plan.Dokument.types) {
+            // Lkr.Plan.Dokument.types = await getDocumentTypes();
+            Lkr.Plan.Dokument.types = getDocumentTypes();
+        }
+
+    </script>
+
+    <script type="text/javascript" src="~/lib/jquery-3.7.1-dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/popper-1.16.1-dist/popper.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="~/js/utility.js"></script>
+    
+    @RenderSection("JsPlanDocumentsUtility", required: false)
+
+    @RenderSection("JsMap", required: false)
+    @RenderSection("JsPlanInfoDokument", required: false)
+    @RenderSection("JsTable", required: false)
+
+    @RenderSection("Script", required: false)
+
+</body>
+</html>

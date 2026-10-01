@@ -1,0 +1,17 @@
+;dokument;;Listar alla plandokument;false
+;handling;;Listar alla planhandlingar;false
+Karta;karta;;Plankarta;true
+Bestämmelser;bestammelse;best;Planbestämmelser då dessa inte existerar på plankartan;true
+Illustration;illustration;illu;Planillustration;true
+Beskrivning;beskrivning;besk;Planbeskrivning;true
+Genomförande;genomforande;genom;Genomförandebeskrivning;true
+Samrådsredogörelse;samradsredogorelse;samred;Sammanställning av samrådets resultat;true
+Utlåtande;utlatande;utlat;Sammanställning av utställningens (PBL 1987:10) eller granskningens resultat (PBL 2010:900);true
+Plan- och genomförandebeskrivning;planochgenomforandebeskrivning;pgbesk;Plan- och genomförandet ska beskrivas i ett och samma dokument sedan PBL 2010:900.;true
+Fastighetsförteckning;fastighetsforteckning;ff;Fastighetsförteckning som noterar sakägare;false
+Grundkarta;grk;grk;Grundkarta då den inte existerar i plankarta;false
+Kvalitetsprogram;kvalitetsprogram;kvalprog;Säkerställa olika kvaliteter;false
+Miljökonsekvensbeskrivning;mkb;mkb;Ger en helhetssyn av den miljöpåverkan som en planerad verksamhet kan medföra;false
+Bullerutredning;bullerutredning;buller;Bullerutredning;false
+Gestaltningsprogram;gestaltningsprogram;gestaltprog;Riktlinjer för utformning av det offentliga rummet;false
+Övriga;ovriga;ovr;Dokument som ej klassificerats på något annat sätt;false

@@ -1,0 +1,82 @@
+/* override ol.css klass */
+.ol-viewport {
+  /* height: 100vh !important; */
+}
+
+.ol-zoom-extent-map {
+  top: 1em;
+  left: 1em;
+}
+
+.ol-zoom-extent-object {
+  top: 3em;
+  left: 1em;
+}
+
+.map-background-wrapper {
+  position: absolute;
+  z-index: 10;
+  top: 1em;
+  right: 1em;
+  white-space: nowrap; /* Ingen radbrytning */
+  display: inline-flex; /* Håller elementen i rad och tar bara så mycket plats som behövs */
+  align-items: center;  /* Vertikalcentrering */
+  /* gap: 0.25rem;         Lite mellanrum mellan select och knapp (justera vid behov) */
+  overflow: visible;
+}
+
+.map-background-wrapper .btn {
+  min-width: 17px; /* För att ikonen inte blir för liten */
+}
+
+.map-background-dropdown {
+  position: relative;
+  min-width: 180px; /* Justera vid behov */
+  z-index: 1000;
+}
+
+.ol-layer-legend {
+  top: 3em;
+  right: 1em;
+  display: flex;
+  /* align-items: center; */
+  gap: 0;
+}
+
+/* Panelen (dold som default) */
+.legend-panel {
+  background: white;
+  overflow: hidden;
+  width: 0;
+  transition: width 0.3s ease;
+  white-space: nowrap;
+  position: absolute;
+  right: 100%;
+}
+/* När panelen är öppen */
+.legend-panel.open {
+  /* width: auto; */
+  min-width: 150px;
+  min-height: 2em;
+  border: 1px solid #ccc;
+}
+
+.legend-panel p {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.legend-panel label {
+  display: flex;
+  align-items: center; 
+  gap: 0.4em; 
+}
+
+.ol-fullscreen {
+  bottom: 1em;
+  right: 1em;
+}
+
+.ol-fullscreen button.ol-fullscreen-true {
+    cursor: pointer;
+}

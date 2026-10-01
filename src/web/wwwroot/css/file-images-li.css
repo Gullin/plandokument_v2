@@ -1,0 +1,42 @@
+﻿
+.doc-file {background-image: url('../images/file-icons/doc.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.docx-file {background-image: url('../images/file-icons/docx.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.dwg-file {background-image: url('../images/file-icons/dwg.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.dxf-file {background-image: url('../images/file-icons/dxf.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.gif-file {background-image: url('../images/file-icons/gif.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.jpg-file {background-image: url('../images/file-icons/jpg.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.katalog-file {background-image: url('../images/file-icons/katalog.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.mdb-file {background-image: url('../images/file-icons/mdb.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.msg-file {background-image: url('../images/file-icons/msg.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.no-file {background-image: url('../images/file-icons/no03-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em; color: rgb(125,125,125);}
+.null-file {background-image: url('../images/file-icons/null.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.one-file {background-image: url('../images/file-icons/one.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.pdf-file {background-image: url('../images/file-icons/pdf.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.png-file {background-image: url('../images/file-icons/png.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.ppt-file {background-image: url('../images/file-icons/ppt.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.pptx-file {background-image: url('../images/file-icons/pptx.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.tif-file {background-image: url('../images/file-icons/tif.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.txt-file {background-image: url('../images/file-icons/txt.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.xls-file {background-image: url('../images/file-icons/xls.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.xlsx-file {background-image: url('../images/file-icons/xlsx.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+
+.doc-bw-file {background-image: url('../images/file-icons/doc-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.docx-bw-file {background-image: url('../images/file-icons/docx-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.dwg-bw-file {background-image: url('../images/file-icons/dwg-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.dxf-bw-file {background-image: url('../images/file-icons/dxf-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.gif-bw-file {background-image: url('../images/file-icons/gif-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.jpg-bw-file {background-image: url('../images/file-icons/jpg-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.katalog-bw-file {background-image: url('../images/file-icons/katalog-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.mdb-bw-file {background-image: url('../images/file-icons/mdb-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.msg-bw-file {background-image: url('../images/file-icons/msg-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.no-bw-file {background-image: url('../images/file-icons/no03-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em; color: rgb(125,125,125);}
+.null-bw-file {background-image: url('../images/file-icons/null-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.one-bw-file {background-image: url('../images/file-icons/one-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.pdf-bw-file {background-image: url('../images/file-icons/pdf-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.png-bw-file {background-image: url('../images/file-icons/png-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.ppt-bw-file {background-image: url('../images/file-icons/ppt-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.pptx-bw-file {background-image: url('../images/file-icons/pptx-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.tif-bw-file {background-image: url('../images/file-icons/tif-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.txt-bw-file {background-image: url('../images/file-icons/txt-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.xls-bw-file {background-image: url('../images/file-icons/xls-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
+.xlsx-bw-file {background-image: url('../images/file-icons/xlsx-bw.png'); background-repeat: no-repeat; background-position-y: 0.2em;}
