@@ -1,0 +1,143 @@
+﻿#PlanTableContainer {
+    position: relative;
+}
+
+.custom-table {
+    font-size: 1.2em;
+
+}
+
+.custom-table .table-dark:hover {
+    /*font-size: 1.2em;*/
+}
+
+.custom-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.custom-table td, .custom-table th {
+    white-space: nowrap;
+}
+
+    .custom-table td {
+        line-height: normal;
+    }
+
+.custom-table td:nth-child(6) {
+    white-space: normal;
+}
+
+.no-hover {
+    /* pointer-events: none; */
+    background-color: #343a40 !important;
+}
+
+#container input {
+    /* width: 100%; */
+}
+
+/* Färg för hovring över rad */
+.table-hover > tbody > tr:hover {
+    /* yellow*/
+    background-color: #fff3cd !important;
+}
+    .table-hover > tbody > tr:hover > td {
+        /* yellow*/
+        border-top: 2px solid #ffda6a !important;
+        border-bottom: 2px solid #ffda6a !important;
+    }
+
+    /* Ser till att hover stängs av för den rad som injekteras av en tabell för dokumenten */
+    .table-hover > tbody > tr#DocumentRow:hover,
+    .table-hover > tbody > tr#DocumentRow:hover > td:hover {
+        background-color: transparent !important;
+        border-top: revert !important;
+        border-bottom: revert !important;
+    }
+.table-striped tbody tr#DocumentRow {
+    background-color: transparent;
+}
+/* Ser till att table-striped inte smittar av sig för nestald tabell för Bootstrap 4 */
+.table-striped tbody tr .inner-table tbody tr {
+    background-color: transparent;
+}
+
+
+
+/* Layout för sorteringsikoner existerande i kolumn */
+.sort-icon {
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+
+/* Lyout för funktionsknappar */
+.button-plan {
+    position: relative;
+    border: 1px solid #888;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    color: #888;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 10px;
+    text-align: center;
+}
+
+    .button-plan::before {
+        font-family: "bootstrap-icons";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+.button-plan-animation {
+    /* Nedan påverkar poppningen vid mushovring */
+    transition: all 0.15s ease-in-out;
+    font-weight: bold;
+
+}
+
+    .button-plan-animation:hover {
+        color: #222;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+    }
+
+.button-plandokument::before {
+    /* Bootstrap Icon Name: Files */
+    content: "\F3C2";
+}
+
+.button-reset-sorting::before {
+    /* Bootstrap Icon Name: Arrow repeat */
+    content: "\F130";
+}
+
+.button-clear-sorting::before {
+    /* Bootstrap Icon Name: Arrow counterclockwise */
+    content: "\F117";
+}
+
+.button-close-document-row::before {
+    /* Bootstrap Icon Name: File x */
+    content: "\F3BD";
+}
+
+.button-to-top::before {
+    /* Bootstrap Icon Name: Arrow bar up */
+    content: "\F115";
+}
+
+
+.table-functions {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;      /* Ligger ovanför annat */
+}

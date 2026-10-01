@@ -1,0 +1,147 @@
+﻿body {
+	font: 0.75em "Trebuchet MS", sans-serif;
+    line-height: 2.6;
+}
+
+a, a:visited, a:hover {
+    color: blue;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+#versionWrapper {
+    position: fixed;
+    top: 0em;
+    right: 1em;
+    color: inherit;
+    color: rgb(150,150,150);
+}
+    #versionWrapper a {
+        text-decoration: underline;
+    }
+
+#feedback {
+    position: fixed;
+    right: 0px;
+    /*top: 300px;*/
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    padding: 0px 0.5em;
+}
+
+    #feedback a {
+        text-decoration: none;
+    }
+
+    #feedback img {
+        display: block;
+        width: 40px;
+        height: 40px;
+        top: -40px;
+    }
+
+    #feedback i {
+        display: block;
+        font-size: 40px;
+        font-weight: 100;
+        line-height: 1.2em;
+        /*height: 1em;*/
+        color: black;
+        padding: 0px;
+    }
+
+/*        #feedback i#map::before {
+            content: "\F2D1";
+        }
+
+        #feedback i#map:hover::before {
+            content: "\F2D0";
+        }
+        #feedback i#map::before {
+            content: "\F3EF";
+        }
+
+        #feedback i#map:hover::before {
+            backdrop-filter: invert(1);
+            filter: invert(1);
+            background-color: black;
+        }
+*/
+        #feedback i#admin::before {
+            content: "\F6E7";
+        }
+
+        #feedback i#admin:hover::before {
+            content: "\F6E6";
+        }
+        #feedback i#map::before {
+            content: "\F47F";
+        }
+
+        #feedback i#map:hover::before {
+            content: "\F47E";
+        }
+        #feedback i#allPlanes::before {
+            content: "\F479";
+        }
+
+        #feedback i#allPlanes:hover::before {
+            content: "\F474";
+        }
+
+        #feedback i#info::before {
+            content: "\F431";
+        }
+
+        #feedback i#info:hover::before {
+            content: "\F430";
+        }
+
+        #feedback i#mail::before {
+            content: "\F32F";
+        }
+
+        #feedback i#mail:hover::before {
+            content: "\F32C";
+        }
+
+#copyrightWrapper {
+    position: fixed;
+    right: 1em;
+    bottom: 0em;
+    text-decoration: none;
+    color: rgb(160,160,160);
+}
+
+.linkNewWindow:after {
+    display: inline-block;
+    /*    background-image: url('../css/jquery-ui-1.10.3-smoothness/images/ui-icons_222222_256x240.png');
+    background-position: -32px -80px;*/
+    font-family: "bootstrap-icons";
+    content: "\F1C5";
+    font-size: 0.6em;
+    font-weight: 100;
+    /*display: block;*/
+    /*line-height: 1.2em;*/
+    /*height: 1em;*/
+    /*color: black;*/
+    position: relative;
+    top: -0.5em;
+    left: 0.5em;
+    /*    width: 16px;
+    height: 16px;
+    position: relative;
+    top: -2px;
+    left: 2px;*/
+}
+
+.hand {
+    cursor: pointer;
+}
+
+.invert-icon-black {
+    filter: invert(1);
+}

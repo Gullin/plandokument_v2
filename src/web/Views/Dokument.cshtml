@@ -1,0 +1,373 @@
+﻿@using System.Text.Json
+@model Plandokument.Models.ViewResults
+@{
+    Layout = "_Layout";
+}
+@section StylesFiles {
+    <link rel="stylesheet" href="lib/ol-10.6.1/ol.css" />
+    <link rel="stylesheet" href="lib/ol-ext-4.0.33/ol-ext.css" />
+}
+@section Config {
+    <script src="~/js/config.js"></script>
+    <script type="text/javascript">
+        Lkr.Plan.Dokument.resolvedClientUrl = "@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}".TrimEnd('/'))";
+    </script>
+}
+@section JsPlanDocumentsUtility {
+    <script src="~/js/plan-document-utility.js"></script>
+}
+@section JsMap {
+    <script type="text/javascript" src="~/lib/proj4-2.19.3/proj4.js"></script>
+    <script type="text/javascript" src="~/lib/ol-10.6.1/ol.js"></script>
+    <script type="text/javascript" src="~/lib/ol-ext-4.0.33/ol-ext.js"></script>
+    <script type="text/javascript" src="~/js/ol-mapbackground.js"></script>
+}
+@section JsPlanInfoDokument {
+    <script type="text/javascript" src="~/js/planInfoDokument.js"></script>
+}
+@section Script {
+    <script type="text/javascript">
+
+        // Lkr.Plan.Dokument.isPlansSearched = ("@Model.IsSearched" == "False" ? false: true);
+        var pageModel = @Html.Raw(JsonSerializer.Serialize(Model));
+        console.log("Model från server:", pageModel);
+
+        Lkr.Plan.Dokument.isPlansSearched = pageModel.IsSearched;
+
+        Lkr.Plan.Dokument.planListInfo = pageModel.Plans;
+
+
+        /**
+        Antalet planer till faktarutan bredvid sökt plan
+        */
+        async function getStatTotNbrPlans() {
+            fetch(Lkr.Plan.Dokument.resolvedClientUrl + '/api/planstatistics/count')
+                .then(response => response.json())
+                .then(data => {
+                    // Hämta elementet med id "statNbrPlans"
+                    const span = document.getElementById("statNbrPlans");
+
+                    // Sätt textinnehållet
+                    span.textContent = "Totalt antal:";
+
+                    // Lägg till ett radbrytningselement
+                    span.appendChild(document.createElement("br"));
+
+                    // Skapa tabell och dess delar
+                    const table = document.createElement("table");
+                    const tr = document.createElement("tr");
+
+                    const td1 = document.createElement("td");
+                    const td2 = document.createElement("td");
+                    const td3 = document.createElement("td");
+
+                    // Fyll cellerna med text
+                    td1.textContent = " ";
+                    td2.textContent = data;
+                    td3.textContent = "st.";
+
+                    // Bygg ihop tabellen
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+                    table.appendChild(tr);
+
+                    // Lägg till tabellen i spanelementet
+                    span.appendChild(table);
+                })
+                .catch(error => {
+                    console.error('Error fetching number plans:', error);
+                });
+        };
+
+        /**
+        Antalet typer av planer till faktarutan bredvid sökt plan
+        */
+        async function getStatNbrPlanTypes() {
+            fetch(Lkr.Plan.Dokument.resolvedClientUrl + '/api/planstatistics/plantypes')
+                .then(response => response.json())
+                .then(data => {
+                    // Hämta elementet med id "statNbrPlanTypes"
+                    const span = document.getElementById("statNbrPlanTypes");
+
+                    // Sätt textinnehållet
+                    span.textContent = "Typer:";
+
+                    // Lägg till ett radbrytningselement
+                    span.appendChild(document.createElement("br"));
+
+                    // Skapa tabell och dess delar
+                    const table = document.createElement("table");
+                    data.forEach(t => {
+                        const tr = document.createElement("tr");
+
+                        const td1 = document.createElement("td");
+                        const td2 = document.createElement("td");
+                        const td3 = document.createElement("td");
+
+                        // Fyll cellerna med text
+                        td1.textContent = t.planFk;
+                        td2.textContent = t.count;
+                        td3.textContent = "st.";
+
+                        // Bygg ihop tabellen
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+                        tr.appendChild(td3);
+                        table.appendChild(tr);
+                    });
+
+                    // Lägg till tabellen i spanelementet
+                    span.appendChild(table);
+
+                })
+                .catch(error => {
+                    console.error('Error fetching number of plan types:', error);
+                });
+        };
+
+        /**
+        Antalet planer inom genomförandetid till faktarutan bredvid sökt plan
+        */
+        async function getStatNbrPlanImplement() {
+            fetch(Lkr.Plan.Dokument.resolvedClientUrl + '/api/planstatistics/withinimplementationtime')
+                .then(response => response.json())
+                .then(data => {
+                    // Hämta elementet med id "statNbrPlanImpImplement"
+                    const span = document.getElementById("statNbrPlanImpImplement");
+
+                    // Sätt textinnehållet
+                    span.textContent = "Inom genomförande:";
+
+                    // Lägg till ett radbrytningselement
+                    span.appendChild(document.createElement("br"));
+
+                    // Skapa tabell och dess delar
+                    const table = document.createElement("table");
+                    const tr = document.createElement("tr");
+
+                    const td1 = document.createElement("td");
+                    const td2 = document.createElement("td");
+                    const td3 = document.createElement("td");
+
+                    // Fyll cellerna med text
+                    td1.textContent = " ";
+                    td2.textContent = data;
+                    td3.textContent = "st.";
+
+                    // Bygg ihop tabellen
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+                    table.appendChild(tr);
+
+                    // Lägg till tabellen i spanelementet
+                    span.appendChild(table);
+                })
+                .catch(error => {
+                    console.error('Error fetching number of plan types:', error);
+                });
+        };
+
+
+        $(document).ready(async function () {
+            // Redan startade ajax-request som ej gett svar avslutas innan initiering av nya (motverkar ev. dubblering av information
+            // Görs endast för de ajax-anrop som har för avsikt att komplettera den generella planinformation
+            if (Lkr.Plan.AjaxCalls.putMapOfPlan != undefined) {
+                Lkr.Plan.AjaxCalls.putMapOfPlan.abort();
+            }
+            if (Lkr.Plan.AjaxCalls.getPlansDocs != undefined) {
+                Lkr.Plan.AjaxCalls.getPlansDocs.abort();
+            }
+
+
+            // $('#planLista').hide();
+            // $('#planSideWrapper').hide();
+
+
+            if (Lkr.Plan.Dokument.isPlansSearched) {
+                document.getElementById("planLista").style.display = 'inline-block';
+                document.getElementById("planSideWrapper").style.display = 'inline-block';
+                document.getElementById("searchResultNbr").innerText = 'Antal unikt sökta: ' + pageModel.SearchTerms.length + ' st.';
+                const criteriaText = `Kriterie: ${pageModel.SearchType || "-"}`;
+                document.getElementById("searchCriteria").innerText = criteriaText;
+                if (pageModel.SearchDocumentType) {
+                    if (document.getElementById("searchDocs") === "handling") {
+                        document.getElementById("searchDocs").innerText = 'Dokumenttyp: ' + "planhandlingar";
+                    }
+                    else {
+                        document.getElementById("searchDocs").innerText = 'Dokumenttyp: ' + pageModel.SearchDocumentType;
+                    }
+                }
+                else {
+                    document.getElementById("searchDocs").innerText = 'Dokumenttyp: ' + "-";
+                }
+                let searchTermCaption = "";
+                if (pageModel.SearchTerms.length <= 1) {
+                    searchTermCaption = "Sökt"
+                }
+                else {
+                    searchTermCaption = "Sökta"
+                }
+                const searchString = pageModel.SearchTerms.join(", ");
+                const searchStringText = `${searchTermCaption}: ${searchString || "-"}`;
+                document.getElementById("searchString").innerText = searchStringText;
+
+
+                getStatTotNbrPlans();
+                getStatNbrPlanTypes();
+                getStatNbrPlanImplement();
+            }
+
+
+
+            getSearchedPlans();
+
+
+            // nbrOfSearchedPlans(Lkr.Plan.Dokument.isPlansSearched, function (isPlansSearched) { // portad    
+            //     if (isPlansSearched) {
+            //         getDocumenttypes(function (Dokumenttyper) {// portad
+            //             if (Dokumenttyper) {
+            //                 documentConditionOfSearchedPlans(); // portad
+            //                 columnConditionOfSearchedPlans(); // portad
+            //                 searchedPlans(); // portad
+
+            //                 getStatTotNbrPlans() // portad
+            //                 getStatNbrPlanTypes(); //portad
+            //                 getStatNbrPlanImplement(); // portad
+
+            //                 getSearchedPlans();
+            //             }
+            //         });
+            //     }
+            // });
+
+
+            // Förändring kartstorlek
+            //Kartbild hämtas efter
+            //1) en viss tid och
+            //2) bara om förändringen av fönsterstorleken påverkar bilden avseevärt, mätt separat för höjd och bredd
+            var resizeTimer;
+
+            $(window).resize(function () {
+                if (resizeTimer) {
+                    clearTimeout(resizeTimer);
+                }
+
+                resizeTimer = setTimeout(function () {
+                    resizeTimer = null;
+
+                    var planId = null;
+                    var mapImageWidth = null;
+                    var mapImageHeight = null;
+                    //console.clear();
+                    $('#planLista').children('h3').each(function () {
+                        planId = $(this).attr("planid");
+                        var resize = false;
+                        var resizeTolerance = 0.1;
+                        var widthDiff = 0;
+                        var heightDiff = 0;
+                        var dimensions = $('#map-' + planId).attr('dimension');
+                        var dimension = []
+                        if (dimensions != undefined) {
+                            dimension = dimensions.split(',');
+                        } else {
+                            dimension[0] = 0;
+                            dimension[1] = 0;
+                        }
+
+                        // Hämtar maximal bredd och höjd som är möjlig för kartbild
+                        mapImageWidth = $('#map-' + planId).width();
+                        mapImageHeight = $('#doc-' + planId).outerHeight();
+
+                        // Kontrollerar förändringsgrad i storlek på platshållaren
+                        if (mapImageWidth > dimension[0]) {
+                            widthDiff = mapImageWidth - dimension[0];
+                        } else {
+                            widthDiff = dimension[0] - mapImageWidth;
+                        }
+                        if (mapImageHeight > dimension[1]) {
+                            heightDiff = mapImageHeight - dimension[1];
+                        } else {
+                            heightDiff = dimension[1] - mapImageHeight;
+                        }
+                        if ((widthDiff / mapImageWidth) >= Lkr.Plan.Setting.Map.mapResizeTolerance || (heightDiff / mapImageHeight) >= Lkr.Plan.Setting.Map.mapResizeTolerance) {
+                            resize = true;
+                        }
+
+
+                        // Om tolleransnivån för förändring av storlek på platshållare överstigits
+                        if (resize) {
+                            // Lagrar dimensioner för mätning av förändring när webbläsarfönster ändras i storlek
+                            $('#map-' + planId).attr('dimension', mapImageWidth + "," + mapImageHeight)
+                            // Drar bort för 10 % marginal till kartöversikt (20 % / 2)
+                            mapImageWidth = mapImageWidth - Math.round(mapImageWidth * 0.2);
+                            mapImageHeight = mapImageHeight - Math.round(mapImageHeight * 0.2);
+                            // Hämtar renderad kartbild med plan
+                            putMapOfPlan(planId, mapImageWidth, mapImageHeight);
+                        }
+                    });
+
+                }, Lkr.Plan.Setting.Map.mapResizeTimespan);
+            });
+
+
+            // Kontrollerar om variabeln är jQuery-objekt
+            function isjQuery(obj) {
+                if (obj instanceof jQuery) {
+                    alert("jQuery object")
+                } else {
+                    alert("! jQuery");
+                }
+            }
+
+        }); // SLUT $(document).ready
+    </script>
+}
+
+
+@* @if (!(Model == null))
+{
+    <p>Tester lite @Model.Message</p>
+}
+else
+{
+    <p>Modellen är null</p>
+}
+
+Host: @Url.ActionContext.HttpContext.Request.Host
+<br />
+PathBase: @Url.ActionContext.HttpContext.Request.PathBase
+<br />
+Path: @Url.ActionContext.HttpContext.Request.Path
+<br />
+
+ *@
+"@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}".TrimEnd('/'))"
+<div>
+    <div id="planLista">
+    </div>
+    <div id="planSideWrapper">
+        <div id="planSideWrapperStats">
+            <h4>Sökparametrar</h4>
+            <div id="planSearch">
+                <span id="searchResultNbr"></span>
+                <span id="searchCriteria"></span>
+                <span id="searchDocs"></span>
+                <span id="searchString"></span>
+            </div>
+            <h4>Sökresultat</h4>
+            <div id="planSearchResult">
+                <span id="statNbrPlanHits"></span>
+                <span id="statNbrPlanBoms"></span>
+                <span id="Span3"></span>
+            </div>
+            <h4>Allmän planstatistik</h4>
+            <div id="planAllm">
+                <span id="statNbrPlans"></span>
+                <span id="statNbrPlanTypes"></span>
+                <span id="statNbrPlanImpImplement"></span>
+            </div>
+        </div>
+    </div>
+</div>

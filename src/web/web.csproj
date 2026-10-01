@@ -1,0 +1,134 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Landskrona.Plandokument</AssemblyName>
+    <RootNamespace>Plandokument</RootNamespace>
+    <!-- Trimmning av systembibliotek via IL Linker (s.k. tree shaking). För att kunna användas behöver applikationen vara s.k. self contained. -->
+    <PublishTrimmed>False</PublishTrimmed>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>2.0.0</Version>
+    <Copyright>© Christian Gullin 2013</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Slår på XML-dokumentation i projektet -->
+    <!-- Bygger xml-fil under exv. bin/Debug/net7.0/MittProjekt.xml -->
+    <!-- Skapar underlag för dokumentation till Swashbuckles Swagger UI-->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- För bibliotek som använder språkresurser begränsas språken till följande, s.k. begränsning i Globalization Invariant Mode när den inte är aktiv. -->
+    <SatelliteResourceLanguages>sv;en</SatelliteResourceLanguages>
+    <!-- Ignorera varningar om saknade kommentarer -->
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <UserSecretsId>0b454e9a-3a71-4ca2-8307-fe13b64c9125</UserSecretsId>
+    <PublishAot>False</PublishAot>
+  </PropertyGroup>
+
+
+
+  <!-- Länkningar mellan kompileringsinställningar i Configuration Manager och miljöinställningar -->
+  <!-- Bättre att lösa m.h.a. publicering (pubxml-filer) istället -->
+  <!--
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <EnvironmentName>Development</EnvironmentName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'DebugStaging'">
+    <EnvironmentName>StagingDevelopment</EnvironmentName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'StagingRelease'">
+    <EnvironmentName>StagingProduction</EnvironmentName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <EnvironmentName>Production</EnvironmentName>
+  </PropertyGroup>
+  -->
+  
+  
+  <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+  
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="10.0.3" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <PackageReference Include="Npgsql" Version="9.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\css\file-images-li.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\css\page-UI-core.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\css\page-UI-help.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\css\page-UI-map.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\css\page-UI-plan.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\css\page-UI-popover.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\css\reset.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\favicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\knob-green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\knob-orange.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Infrastructure\Sql\mssqlserver\select-plan-beror-fastighet.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure\Sql\mssqlserver\select-plan-beror-plan.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure\Sql\mssqlserver\select-plan-register-bas.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure\Sql\postgresql\select-plan-geometri-bas.pgsql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure\Sql\postgresql\select-plan-geometries-all-as-geojson.pgsql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure\Sql\postgresql\select-plan-geometries-bysearch-as-geojson.pgsql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure\Sql\sqlite\create-stat-requests.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Infrastructure\Sql\sqlite\insert-stat-requests.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\dokumenttyper.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

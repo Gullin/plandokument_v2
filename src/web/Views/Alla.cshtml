@@ -1,0 +1,269 @@
+﻿@{
+    Layout = "_Layout";
+}
+@section StylesFiles {
+    <link rel="stylesheet" href="~/css/page-UI-centering.css" />
+    <link rel="stylesheet" href="~/css/page-UI-plan-alla-table.css" />
+}
+@section Config {
+    <script src="~/js/config.js"></script>
+    <script type="text/javascript">
+        Lkr.Plan.Dokument.resolvedClientUrl = "@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}".TrimEnd('/'))";
+    </script>
+}
+@section JsPlanDocumentsUtility {
+    <script src="~/js/plan-document-utility.js"></script>
+}
+@section JsTable {
+    <script src="~/js/table.js"></script>
+}
+
+
+@section Script {
+    <script type="text/javascript">
+
+        // Testdata
+        // const testData = [
+        //     { id: 1, name: "Alice", age: 32 },
+        //     { id: 2, name: "Bob", age: 24 },
+        //     { id: 3, name: "Charlie", age: 29 }
+        // ];
+
+        /**
+        Hämtar alla plamer
+        */
+        async function getAllPlaninformation() {
+            return await fetch(Lkr.Plan.Dokument.resolvedClientUrl + '/api/planbas')
+                .then(response => response.json())
+                .then(data => {
+
+                    // Plattar ut svaret
+                    const resultPlanData = {
+                        Result: "OK",
+                        Records: data.map(item => {
+                            // Kopiera geometri utan lmakt
+                            const { lmakt, ...geomRest } = item.geometri;
+                            // Slå ihop register + resten av geometri
+                            return { ...item.register, ...geomRest };
+                        })
+                    };
+
+                    // Utökar med att formatera initialt sortering med kolumn där datumformateringen görs om
+                    resultPlanData.Records = resultPlanData.Records.map(record => ({
+                        ...record,
+                        dat_beslut_number: record.dat_beslut ? Number(record.dat_beslut.replace(/-/g, "")) : null
+                    }));
+                    // for (const record of resultPlanData.Records) {
+                    //     console.log(record);
+                    //     record.dat_beslut_number = record.dat_beslut ? Number(record.dat_beslut.replace(/-/g, "")) : null;
+                    // }
+
+                    const table = new CustomTable(
+                        document.getElementById("PlanTableContainer"),
+                        resultPlanData.Records,
+                        {
+                            columns: [
+                                { key: "plan_id", label: "id", type: "hidden" },
+                                { key: "planfk", label: "Typ" },
+                                {
+                                    key: "lmakt",
+                                    label: "Aktbeteckning",
+                                    render: (value, row) => {
+                                        const spanLinkNewWindow = '<span class="linkNewWindow" title="Öppnar länk i nytt webbläsarfönster"> </span>';
+                                        const a = document.createElement("a");
+                                        a.textContent = value;
+                                        a.href = `${Lkr.Plan.Dokument.resolvedClientUrl}/dokument,nyckel/${row.plan_id}`;
+                                        a.target = "_blank";          // valfritt
+                                        a.rel = "noopener noreferrer";
+                                        a.innerHTML += spanLinkNewWindow;
+                                        return a;
+                                    }
+                                },
+                                { key: "akt_pb", label: "Bygglov" },
+                                { key: "egn_akt", label: "f.d. Stadsingenjör" },
+                                { key: "plannamn", label: "Plannamn" },
+                            ],
+                            initialSort: {key: "dat_beslut_number", direction: "desc"},
+                            extraColumns: [
+                                {
+                                    label: "",
+                                    render: (row) => {
+                                        const button = document.createElement("button");
+                                        button.title = "Visa plandokument";
+                                        button.classList.add("button-plan","button-plan-animation","button-plandokument");
+                                        // arrow function do not have their own this context
+                                        button.addEventListener("click", function (e) {
+                                            // Tar bort ev. tidigare rad för dokument
+                                            const r = document.getElementById("DocumentRow");
+                                            if (r) { 
+                                                const prevButton = r.previousSibling.cells[6].querySelectorAll("button")[0];
+                                                prevButton.classList.add("button-plan-animation");
+                                                prevButton.style.cursor = "pointer";
+                                                prevButton.disabled = false;
+                                                r.remove();
+                                            }
+
+                                            // Skapar infälld rad, för listning av dokument, utgår från rad där tryckt knappt
+                                            const clickedButton = this;
+                                            clickedButton.disabled = true;
+                                            clickedButton.style.cursor = "default";
+                                            clickedButton.classList.remove("button-plan-animation");
+                                            const referencedRow = clickedButton.parentNode.closest("tr")
+                                            const newRow = document.createElement("tr");
+                                            newRow.setAttribute("id","DocumentRow");
+                                            const newTd = document.createElement("td");
+                                            newTd.colSpan = (referencedRow.cells.length-1).toString();
+
+                                            const documentTable = document.createElement("table");
+                                            documentTable.classList.add("table","inner-table");
+                                            documentTable.style.marginBottom = 0;
+                                            const documentTableBody = document.createElement("tbody");;
+                                            const documentTableTr = document.createElement("tr");
+                                            const documentTableTd = document.createElement("td");
+                                            documentTableTd.style.width = "100%";
+                                            documentTableTd.style.verticalAlign = "middle";
+                                            documentTableTd.style.textAlign = "center";
+
+                                            // Bootstrap Spinner
+                                            // https://getbootstrap.com/docs/5.3/components/spinners/
+                                            const spinner = document.createElement("div");
+                                            spinner.classList.add("align-items-center");
+                                            spinner.style.width = "100%";
+                                            const strong = document.createElement("strong");
+                                            strong.setAttribute("role","status");
+                                            strong.textContent = "Laddar dokument...";
+                                            strong.style.paddingRight = "1em";
+                                            const spinnerImage = document.createElement("div");
+                                            spinnerImage.classList.add("spinner-border","spinner-border-sm");
+                                            spinnerImage.setAttribute("aria-hidden","true");
+                                            spinner.appendChild(strong);
+                                            spinner.appendChild(spinnerImage);
+                                            documentTableTd.appendChild(spinner);
+
+                                            //TODO: Hämta planens dokument
+                                            const planId = referencedRow.cells[0].innerText;
+                                            let planDocsElement = null;
+                                            (async function () {
+                                                try {
+                                                    const response = await fetch(
+                                                        `${Lkr.Plan.Dokument.resolvedClientUrl}/api/documents/by-plans/${planId}`
+                                                    );
+
+                                                    const planDocuments = await response.json();
+
+                                                    const documenttypes = await Lkr.Plan.Dokument.types;
+
+                                                    const planDocs = [
+                                                        {
+                                                            planId: planId,
+                                                            planNamn: "",
+                                                            documents: planDocuments
+                                                        }
+                                                    ];
+
+                                                    planDocsElement = await buildPlanDocuments(planDocs);
+
+                                                }
+                                                catch (err) {
+                                                    console.error(err);
+                                                }
+                                                finally {
+                                                    if (planDocsElement) {
+                                                        setTimeout(function () {
+                                                            documentTableTd.innerHTML = "";
+                                                            documentTableTd.appendChild(planDocsElement);
+                                                            documentTableTd.style.textAlign = "left";
+                                                        }, 500);
+                                                    }
+                                                    else {
+                                                        documentTableTd.innerHTML = "Dokument kunde inte laddas!";
+                                                    }
+                                                }
+                                            })();
+
+                                            documentTableTr.append(documentTableTd);
+                                            documentTableBody.append(documentTableTr);
+                                            documentTable.append(documentTableBody);
+                                            newTd.append(documentTable);
+
+                                            newRow.append(newTd);
+                                            referencedRow.after(newRow);
+                                        });
+
+                                        return button;
+                                    }
+                                },
+                                {
+                                    label: "",
+                                    render: (row) => {
+                                        const img = document.createElement("img");
+
+                                        switch (row.isgenomf) {
+                                            case 1:
+                                                img.src = urlBasePath + "/images/knob-orange.png";
+                                                img.alt = "Orange rund bild som visar att planen är inom genomförandetid";
+                                                img.title = "Inom genomförandetid";
+                                                break;
+                                            case 0:
+                                                img.src = urlBasePath + "/images/knob-green.png";
+                                                img.alt = "Grönd rund bild som visar att planens genomförandetid löpt ut";
+                                                img.title = "Genomförandetid löpt ut";
+                                                break;
+                                            default:
+                                                img.src = urlBasePath + "/images/planDocuments-no.png";
+                                                img.alt = "Bild som visar att planens status för genomförandetid är okänd";
+                                                img.title = "Okänd genomförandetid";
+                                        }
+
+                                        return img;
+                                    }
+                                }
+                            ]
+                        }
+                    );
+
+                    // return data;
+                })
+                .catch(error => {
+                    console.error('Error fetching document types:', error);
+                    return null;
+                });
+        };
+
+        getAllPlaninformation();
+
+
+
+        // Filtrera tabellen i klienten, filtreras på innehållet från alla kolumner
+        $(function () {
+
+            $("#searchJTablePlanList").keyup(function () {
+                var value = $(this).val().toLowerCase();
+                $(".custom-table tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            document.getElementById("searchJTablePlanList").focus();
+
+        });
+
+
+
+    </script>
+}
+
+
+<div id="container">
+
+    <br />
+
+    <input id="searchJTablePlanList" type="text" class="form-control" placeholder="Filtrera listade planer ..." />
+
+    <br />
+
+    <div id="PlanTableContainer"></div>
+
+
+
+</div>
