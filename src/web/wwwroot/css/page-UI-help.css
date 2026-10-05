@@ -13,6 +13,8 @@
 
     #contentIndex ul {
         margin: 0px;
+        padding-left: 1em;
+        list-style: none;
     }
 
 #content {
@@ -30,7 +32,7 @@
     transform: rotate(45deg);
     display: inline-block;
     position: relative;
-    font-size: 0.8em;
+    font-size: 0.7em;
     /*list-style-image: url('../pic/list-style-8x8.png');*/
 }
 
@@ -83,7 +85,18 @@ p {
 }
 
 ol {
+    list-style: decimal;
+    padding-left: 2em;
     font-size: 1.3em;
+}
+
+ul {
+    list-style-type: disc;
+    list-style-position: outside;
+    margin-left: 2em;
+}
+li {
+    display: list-item;
 }
 
 ul.ul-bas {

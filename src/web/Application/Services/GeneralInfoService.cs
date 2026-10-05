@@ -40,6 +40,7 @@ public class GeneralInfoService
     public GeneralInfo GetGeneralInfo() => new GeneralInfo
     {
         VersionInfo = "v" + _versionInfo,
-        Copyright = _copyright
+        Copyright = _copyright,
+        SearchParams = _applicationSettings.Value.SearchParams
     };
 }
