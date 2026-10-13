@@ -82,7 +82,8 @@ internal class DbStatisticLogger : ILogger, IDisposable
                 {
                     await WriteToDatabaseAsync(when, nbr_search, nbr_hits, searchtime);
                 }
-                catch (Exception ex)
+                catch
+                //catch (Exception ex)
                 {
                     //_logger.LogError(ex, "Fel vid loggning av statistik: {Message}", ex.Message);
                     // Undertryck loggfel för att inte krascha applikationen
