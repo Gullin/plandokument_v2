@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Plandokument.Application.Interfaces.Caches;
+using Plandokument.Application.Interfaces.Exporters;
 using Plandokument.Application.Interfaces.Repositories;
 using Plandokument.Application.Interfaces.Services;
 using Plandokument.Application.Options.Application;
@@ -14,6 +15,7 @@ using Plandokument.Domain.Interfaces;
 using Plandokument.Infrastructure;
 using Plandokument.Infrastructure.Background;
 using Plandokument.Infrastructure.Cache;
+using Plandokument.Infrastructure.Export.Csv;
 using Plandokument.Infrastructure.Logging;
 using Plandokument.Infrastructure.Process;
 using Plandokument.Infrastructure.Repositories;
@@ -35,9 +37,10 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConfiguration(
     builder.Configuration.GetSection("Logging")
 );
-// Om endast delar av ApplicationSpecificLoggingSettings ska användas, avkommentera nedan
-//builder.Services.Configure<ApplicationSpecificLoggingSettings>(
-//    builder.Configuration.GetSection("Logging:ApplicationSpecificLogging"));
+// Bind ApplicationSpecificLoggingSettings enligt Options Pattern.
+// RootPath används bland annat som standardkatalog för CSV-exporter.
+builder.Services.Configure<ApplicationSpecificLoggingSettings>(
+    builder.Configuration.GetSection("Logging:ApplicationSpecificLogging"));
 // Register provider types
 builder.Services.AddSingleton<ILoggerProvider, FileGeneralLoggerProvider>();
 builder.Services.AddSingleton<ILoggerProvider, DbStatisticLoggerProvider>();
@@ -155,6 +158,18 @@ builder.Services.AddHostedService<CacheRefreshService>();
 builder.Services.AddSingleton<IPlanDocumentsRepository, PlanDocumentsRepository>();
 builder.Services.AddSingleton<IPlanDocumentsService, PlanDocumentsService>();
 builder.Services.AddSingleton<IPlanDocumentsCacheService, PlanDocumentsCacheService>();
+
+builder.Services.AddSingleton<DocumentTypeCsvWriter>();
+builder.Services.AddSingleton<PlanBasCsvWriter>();
+builder.Services.AddSingleton<PlanBerorPlanCsvWriter>();
+builder.Services.AddSingleton<PlanBerorFastighetCsvWriter>();
+builder.Services.AddSingleton<PlanGeometriesAllAsGeoJSONCsvWriter>();
+builder.Services.AddSingleton<PlanDocumentsCsvWriter>();
+
+builder.Services.AddSingleton<ICacheRegistry, CacheRegistry>();
+
+builder.Services.AddSingleton<ICacheCsvExporter, CacheCsvExporter>();
+
 
 
 

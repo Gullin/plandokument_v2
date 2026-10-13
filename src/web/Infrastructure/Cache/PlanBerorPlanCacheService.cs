@@ -27,26 +27,34 @@ public class PlanBerorPlanCacheService : IPlanBerorPlanCacheService
 
     public async Task<IEnumerable<PlanBerorPlan>> GetOrRefreshAsync()
     {
-        if (_cache.TryGetValue(_options.CacheKey, out List<PlanBerorPlan> cached))
+        if (_cache.TryGetValue(
+            _options.CacheKey,
+            out IEnumerable<PlanBerorPlan>? cached))
         {
             return cached;
         }
 
-        var planBas = await _repository.GetPlanBerorPlanAsync();
+        return await RefreshAsync();
+    }
+
+    public async Task<IEnumerable<PlanBerorPlan>> RefreshAsync()
+    {
+        var repo = await _repository.GetPlanBerorPlanAsync();
 
         var now = DateTime.Now;
         var nextRefresh = now.Date.Add(_cacheSettings.RefreshTime);
+
         if (nextRefresh <= now)
         {
             nextRefresh = nextRefresh.AddDays(1);
         }
 
-        _cache.Set(_options.CacheKey, planBas, new MemoryCacheEntryOptions
+        _cache.Set(_options.CacheKey, repo, new MemoryCacheEntryOptions
         {
             AbsoluteExpiration = nextRefresh
         });
 
-        return planBas;
+        return repo;
     }
 
     public void ClearCache()

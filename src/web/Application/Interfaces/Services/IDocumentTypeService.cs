@@ -4,7 +4,7 @@ namespace Plandokument.Application.Interfaces.Services;
 
 public interface IDocumentTypeService
 {
-    Task<List<DocumentType>> GetAllAsync();
+    Task<IEnumerable<DocumentType>> GetAllAsync();
 
     int GetPropertyCount();
 

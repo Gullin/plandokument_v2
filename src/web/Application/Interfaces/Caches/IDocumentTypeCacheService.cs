@@ -1,10 +1,10 @@
 ﻿using Plandokument.Domain.Entities;
 
-namespace Plandokument.Application.Interfaces.Caches
+namespace Plandokument.Application.Interfaces.Caches;
+
+public interface IDocumentTypeCacheService
 {
-    public interface IDocumentTypeCacheService
-    {
-        Task<List<DocumentType>> GetOrRefreshAsync();
-        void ClearCache();
-    }
+    Task<IEnumerable<DocumentType>> GetOrRefreshAsync();
+    Task<IEnumerable<DocumentType>> RefreshAsync();
+    void ClearCache();
 }

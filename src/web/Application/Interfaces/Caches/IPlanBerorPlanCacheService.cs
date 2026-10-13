@@ -5,5 +5,6 @@ namespace Plandokument.Application.Interfaces.Caches;
 public interface IPlanBerorPlanCacheService
 {
     Task<IEnumerable<PlanBerorPlan>> GetOrRefreshAsync();
+    Task<IEnumerable<PlanBerorPlan>> RefreshAsync();
     void ClearCache();
 }

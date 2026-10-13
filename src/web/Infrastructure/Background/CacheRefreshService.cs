@@ -1,23 +1,24 @@
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Plandokument.Application.Interfaces.Caches;
 using Plandokument.Application.Options.Caches;
 using Plandokument.Domain.Entities;
+using Plandokument.Infrastructure.Cache;
 
 namespace Plandokument.Infrastructure.Background;
 
 public class CacheRefreshService : BackgroundService
 {
     private readonly ILogger<CacheRefreshService> _logger;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly ICacheRegistry _cacheRegistry;
     private readonly TimeSpan _targetTime;
 
     public CacheRefreshService(
         ILogger<CacheRefreshService> logger,
-        IServiceProvider serviceProvider,
+        ICacheRegistry cacheRegistry,
         IOptions<CachesSettings> options)
     {
         _logger = logger;
-        _serviceProvider = serviceProvider;
+        _cacheRegistry = cacheRegistry;
         _targetTime = options.Value.RefreshTime;
     }
 
@@ -32,7 +33,7 @@ public class CacheRefreshService : BackgroundService
                 nextRun = nextRun.AddDays(1);
 
             var delay = nextRun - now;
-            _logger.LogInformation("Nästa DocumentType-cache refresh sker {NextRun}", nextRun);
+            _logger.LogInformation("Nästa cache refresh sker {NextRun}", nextRun);
 
             try
             {
@@ -59,44 +60,25 @@ public class CacheRefreshService : BackgroundService
                 throw;
             }
 
-            // Kör själva refresh
-            using var scope = _serviceProvider.CreateScope();
-            var documentTypeCacheService = scope.ServiceProvider.GetRequiredService<IDocumentTypeCacheService>();
-            var planBasCacheService = scope.ServiceProvider.GetRequiredService<IPlanBasCacheService>();
-            var planBerorPlanCacheService = scope.ServiceProvider.GetRequiredService<IPlanBerorPlanCacheService>();
-            var planBerorFastighetCacheService = scope.ServiceProvider.GetRequiredService<IPlanBerorFastighetCacheService>();
-            var planGeometriesAllAsGeoJSONCacheService = scope.ServiceProvider.GetRequiredService<IPlanGeometriesAllAsGeoJSONCacheService>();
-            var planDocumentsCacheService = scope.ServiceProvider.GetRequiredService<IPlanDocumentsCacheService>();
-
-            try
+            foreach (var cache in _cacheRegistry.GetAll())
             {
-                var docs = await documentTypeCacheService.GetOrRefreshAsync();
-                _logger.LogInformation("DocumentType-cachen uppdaterad ({Count} rader) {Time}",
-                    docs.Count, DateTime.Now);
+                try
+                {
+                    var data = await cache.RefreshAsync(stoppingToken);
 
-                var planBas = await planBasCacheService.GetOrRefreshAsync();
-                _logger.LogInformation("PlanBas-cachen uppdaterad ({Count} rader) {Time}",
-                    planBas is ICollection<PlanBas> coll ? coll.Count : planBas.Count(), DateTime.Now);
-
-                var planBerorPlan = await planBerorPlanCacheService.GetOrRefreshAsync();
-                _logger.LogInformation("PlanBerorPlan-cachen uppdaterad ({Count} rader) {Time}",
-                    planBerorPlan.Count(), DateTime.Now);
-
-                var planBerorFastighet = await planBerorFastighetCacheService.GetOrRefreshAsync();
-                _logger.LogInformation("PlanBerorFastighet-cachen uppdaterad ({Count} rader) {Time}",
-                    planBerorFastighet.Count(), DateTime.Now);
-
-                var planGeometriesAllAsGeoJSON = await planGeometriesAllAsGeoJSONCacheService.GetOrRefreshAsync();
-                _logger.LogInformation("PlanGeometriesAllAsGeoJSON-cachen uppdaterad ({Count} rader) {Time}",
-                    planGeometriesAllAsGeoJSON.Count(), DateTime.Now);
-
-                var planDocuments = await planDocumentsCacheService.GetOrRefreshAsync();
-                _logger.LogInformation("planDocuments-cachen uppdaterad ({Count} rader) {Time}",
-                    planDocuments.Count(), DateTime.Now);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Fel vid refresh av cache");
+                    _logger.LogInformation(
+                        "Cache {CacheKey} ({Name}) uppdaterad {Time}.",
+                        cache.CacheKey,
+                        cache.Name,
+                        DateTime.Now);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(
+                        ex,
+                        "Fel vid refresh av cache {CacheKey}.",
+                        cache.CacheKey);
+                }
             }
         }
     }

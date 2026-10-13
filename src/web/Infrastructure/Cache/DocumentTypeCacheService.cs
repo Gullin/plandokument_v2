@@ -25,32 +25,41 @@ public class DocumentTypeCacheService : IDocumentTypeCacheService
         _options = options.Value.DocumentTypes;
     }
 
-    public async Task<List<DocumentType>> GetOrRefreshAsync()
+    public async Task<IEnumerable<DocumentType>> GetOrRefreshAsync()
     {
-        if (_cache.TryGetValue(_options.CacheKey, out List<DocumentType> cached))
+        if (_cache.TryGetValue(
+            _options.CacheKey,
+            out IEnumerable<DocumentType>? cached))
         {
             return cached;
         }
 
-        var documentTypes = await _repository.GetDocumentTypesAsync();
+        return await RefreshAsync();
+    }
+
+    public async Task<IEnumerable<DocumentType>> RefreshAsync()
+    {
+        var repo = await _repository.GetDocumentTypesAsync();
 
         var now = DateTime.Now;
         var nextRefresh = now.Date.Add(_cacheSettings.RefreshTime);
+
         if (nextRefresh <= now)
         {
             nextRefresh = nextRefresh.AddDays(1);
         }
 
-        _cache.Set(_options.CacheKey, documentTypes, new MemoryCacheEntryOptions
+        _cache.Set(_options.CacheKey, repo, new MemoryCacheEntryOptions
         {
             AbsoluteExpiration = nextRefresh
         });
 
-        return documentTypes;
+        return repo;
     }
 
     public void ClearCache()
     {
         _cache.Remove(_options.CacheKey);
     }
+
 }

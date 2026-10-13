@@ -27,26 +27,34 @@ public class PlanGeometriesAllAsGeoJSONCacheService : IPlanGeometriesAllAsGeoJSO
 
     public async Task<IEnumerable<PlanGeoJSON>> GetOrRefreshAsync()
     {
-        if (_cache.TryGetValue(_options.CacheKey, out List<PlanGeoJSON> cached))
+        if (_cache.TryGetValue(
+            _options.CacheKey,
+            out IEnumerable<PlanGeoJSON>? cached))
         {
             return cached;
         }
 
-        var planBas = await _repository.GetPlanGeometriesAllAsGeoJSONAsync();
+        return await RefreshAsync();
+    }
+
+    public async Task<IEnumerable<PlanGeoJSON>> RefreshAsync()
+    {
+        var repo = await _repository.GetPlanGeometriesAllAsGeoJSONAsync();
 
         var now = DateTime.Now;
         var nextRefresh = now.Date.Add(_cacheSettings.RefreshTime);
+
         if (nextRefresh <= now)
         {
             nextRefresh = nextRefresh.AddDays(1);
         }
 
-        _cache.Set(_options.CacheKey, planBas, new MemoryCacheEntryOptions
+        _cache.Set(_options.CacheKey, repo, new MemoryCacheEntryOptions
         {
             AbsoluteExpiration = nextRefresh
         });
 
-        return planBas;
+        return repo;
     }
 
     public void ClearCache()

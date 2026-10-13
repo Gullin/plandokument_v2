@@ -15,7 +15,7 @@ public class DocumentTypeService : IDocumentTypeService
         _cacheService = cacheService;
     }
 
-    public async Task<List<DocumentType>> GetAllAsync()
+    public async Task<IEnumerable<DocumentType>> GetAllAsync()
     {
         return await _cacheService.GetOrRefreshAsync();
     }
@@ -37,6 +37,6 @@ public class DocumentTypeService : IDocumentTypeService
     public async Task<int> GetDocumentTypeCountAsync()
     {
         var documentTypes = await GetAllAsync();
-        return documentTypes.Count;
+        return documentTypes.Count();
     }
 }
