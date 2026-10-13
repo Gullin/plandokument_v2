@@ -5,7 +5,7 @@ namespace Plandokument.Application.Options.Application;
 
 public class ApplicationSettings
 {
-    public string BasePath { get; set; }
+    public string BasePath { get; set; } = string.Empty;
     public string Version { get; set; } = string.Empty;
     public string VersionSuffix { get; set; } = string.Empty;
     public Security.AuthorizationSettings Authorizations { get; set; } = new();
