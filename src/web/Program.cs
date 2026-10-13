@@ -1,9 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.Logging;
-using Microsoft.CodeAnalysis.Elfie.Model.Tree;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Plandokument.Application.Interfaces.Caches;
@@ -14,7 +10,6 @@ using Plandokument.Application.Options.Caches;
 using Plandokument.Application.Options.Logging;
 using Plandokument.Application.Options.PlanDocumentFiles;
 using Plandokument.Application.Services;
-using Plandokument.Controllers.Api;
 using Plandokument.Domain.Interfaces;
 using Plandokument.Infrastructure;
 using Plandokument.Infrastructure.Background;
@@ -24,8 +19,6 @@ using Plandokument.Infrastructure.Process;
 using Plandokument.Infrastructure.Repositories;
 using Plandokument.Infrastructure.Security;
 using Plandokument.Middleware;
-using System.IO;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
