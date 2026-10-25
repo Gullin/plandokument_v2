@@ -200,32 +200,6 @@ public class DokumentController : BasController
             : new List<PlanBerorFastighet>();
 
 
-
-        #region skriver ut Plan Bas Cache som hjälp vid utveckling
-        //TODO: Cache, PlanBasCache, Flytta till Admin-funktion
-        //TODO: Cache, Möjlighet att skriva ut alla cacher
-        // 🔹 Ange filens sökväg (lägg i appens loggmapp)
-
-        //var logDirectory = "log";
-        //if (!Directory.Exists(logDirectory))
-        //    Directory.CreateDirectory(logDirectory);
-        //var logFile = Path.Combine(logDirectory, "plan_cache_dump.txt");
-
-        //// 🔹 Skriv ut valda fält
-        //await using (var writer = new StreamWriter(logFile, append: false)) // append:false för att skriva om filen varje gång
-        //{
-        //    await writer.WriteLineAsync("plan_id;lmakt;egn_akt;akt_pb");
-
-        //    foreach (var plan in plans)
-        //    {
-        //        var line = $"{plan.Register.plan_id};{plan.Register.lmakt};{plan.Register.egn_akt};{plan.Geometri.akt_pb}";
-        //        await writer.WriteLineAsync(line);
-        //    }
-        //}
-        #endregion
-
-
-
         var parcelBlockUnitSearchSign = _optionsSearch.URLParcelBlockUnitSign;
         var result = new List<PlanSearchResult>();
 
