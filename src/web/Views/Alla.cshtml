@@ -37,6 +37,11 @@
                 .then(response => response.json())
                 .then(data => {
 
+                    if (data.status == 500) {
+                        document.getElementById("PlanTableContainer").textContent = "Inträffat fel. Planinformation ej tillgänglig.";
+                        throw data;
+                    }
+
                     // Plattar ut svaret
                     const resultPlanData = {
                         Result: "OK",
