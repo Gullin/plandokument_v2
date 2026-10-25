@@ -27,29 +27,20 @@
   <Target Name="SetGitCommitMetadata" BeforeTargets="GetAssemblyAttributes">
 
     <!-- Lokal fallback om GitLab-variabeln saknas. -->
-    <Exec Command="git rev-parse --verify HEAD"
-          WorkingDirectory="$(MSBuildProjectDirectory)"
-          ConsoleToMSBuild="true"
-          IgnoreExitCode="true"
-          Condition="'$(GitCommitSha)' == ''">
-      <Output TaskParameter="ConsoleOutput"
-              PropertyName="_LocalGitCommitSha" />
+    <Exec Command="git rev-parse --verify HEAD" WorkingDirectory="$(MSBuildProjectDirectory)" ConsoleToMSBuild="true" IgnoreExitCode="true" Condition="'$(GitCommitSha)' == ''">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_LocalGitCommitSha" />
     </Exec>
 
     <PropertyGroup>
       <GitCommitSha Condition="'$(GitCommitSha)' == ''">$([System.String]::Copy('$(_LocalGitCommitSha)').Trim())</GitCommitSha>
     </PropertyGroup>
 
-    <Message
-      Importance="High"
-      Text=" ########## Commit-SHA: $(GitCommitSha)" />
+    <Message Importance="High" Text=" ########## Commit-SHA: $(GitCommitSha)" />
     <!-- Baka in SHA i assemblyn så att den även finns efter publish. -->
-    
     
     <ItemGroup Condition="'$(GitCommitSha)' != ''">
       
-      <AssemblyMetadata Include="GitCommitSha"
-                        Value="$(GitCommitSha)" />
+      <AssemblyMetadata Include="GitCommitSha" Value="$(GitCommitSha)" />
       
     </ItemGroup>
 
@@ -100,7 +91,7 @@
   
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="10.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="10.0.14" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.10" />
     <PackageReference Include="Npgsql" Version="9.0.3" />
@@ -108,6 +99,7 @@
     <PackageReference Include="NuGet.Protocol" Version="7.9.0" />
     <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.53.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.5" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
   </ItemGroup>
 
   <ItemGroup>
