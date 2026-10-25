@@ -14,8 +14,48 @@
   <PropertyGroup>
     <Version>2.0.0</Version>
     <Copyright>© Christian Gullin 2013</Copyright>
+
+
+    <!-- Plockar bort Git-SHA från publicerade assemblyfiler versionsinformation men behåller exv. Microsoft.SourceLink.GitLab.targets -->
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+
   </PropertyGroup>
 
+
+  
+  <!-- Hämtar Git-SHA och placerar det i assemblyn -->
+  <Target Name="SetGitCommitMetadata" BeforeTargets="GetAssemblyAttributes">
+
+    <!-- Lokal fallback om GitLab-variabeln saknas. -->
+    <Exec Command="git rev-parse --verify HEAD"
+          WorkingDirectory="$(MSBuildProjectDirectory)"
+          ConsoleToMSBuild="true"
+          IgnoreExitCode="true"
+          Condition="'$(GitCommitSha)' == ''">
+      <Output TaskParameter="ConsoleOutput"
+              PropertyName="_LocalGitCommitSha" />
+    </Exec>
+
+    <PropertyGroup>
+      <GitCommitSha Condition="'$(GitCommitSha)' == ''">$([System.String]::Copy('$(_LocalGitCommitSha)').Trim())</GitCommitSha>
+    </PropertyGroup>
+
+    <Message
+      Importance="High"
+      Text=" ########## Commit-SHA: $(GitCommitSha)" />
+    <!-- Baka in SHA i assemblyn så att den även finns efter publish. -->
+    
+    
+    <ItemGroup Condition="'$(GitCommitSha)' != ''">
+      
+      <AssemblyMetadata Include="GitCommitSha"
+                        Value="$(GitCommitSha)" />
+      
+    </ItemGroup>
+
+  </Target>
+  
+  
   <PropertyGroup>
     <!-- Slår på XML-dokumentation i projektet -->
     <!-- Bygger xml-fil under exv. bin/Debug/net7.0/MittProjekt.xml -->

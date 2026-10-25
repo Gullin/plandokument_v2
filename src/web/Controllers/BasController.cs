@@ -10,9 +10,17 @@ public class BasController : Controller
     protected ViewResults result;
 
     [ViewData]
+    public string Version { get; set; }
+    [ViewData]
+    public string VersionSuffix { get; set; }
+    [ViewData]
     public string VersionInfo { get; set; }
     [ViewData]
     public string Copyright { get; set; }
+    [ViewData]
+    public string GitCommitSHA { get; set; }
+    [ViewData]
+    public string GitCommitSHAShort { get; set; }
 
     protected BasController(GeneralInfoService generalInfoService)
     {
@@ -23,8 +31,13 @@ public class BasController : Controller
             GeneralInfo = _generalInfoService.GetGeneralInfo()
         };
 
+        Version = result.GeneralInfo.Version;
+        VersionSuffix = result.GeneralInfo.VersionSuffix;
         VersionInfo = result.GeneralInfo.VersionInfo;
         Copyright = result.GeneralInfo.Copyright;
+        GitCommitSHA = result.GeneralInfo.GitCommitSha;
+        GitCommitSHAShort = result.GeneralInfo.GitCommitShaShort;
+
         
     }
 }
