@@ -95,7 +95,7 @@
 
     <h2 id="avsnitt1-1">1.1 Karta</h2>
     <p>
-        Plandokumenten är åtkomliga genom kartorna ”<a href="https://karta-intern.landskrona.se/">Medarbetarkartan</a>” och ”<a href="https://karta-intern.landskrona.se/spatialmap?profile=handlaggarkartan">Handläggarkartan</a>” samt ”<a href="https://karta.landskrona.se">Landskronakartan</a>” (begränsas till plandokumenten plankarta, planbeskrivning och genomförandebeskrivning i "Landskronakartan"). Åtkomsten sker antingen genom att utgå ifrån planområdet för gällande planer, fastighet (genom planens berörkrets) eller indirekt genom sökning på planbeteckning.
+        Plandokumenten är åtkomliga genom kartorna ”<a href="https://karta-intern.landskrona.se/">Medarbetarkartan</a>” och ”<a href="https://karta-intern.landskrona.se/spatialmap?profile=handlaggarkartan">Handläggarkartan</a>” samt ”<a href="https://karta.landskrona.se">Landskronakartan</a>”. Det är endast genom "Handläggarkartan" som uppslag görs genom "Plandokumentsapplikationen". Åtkomsten sker antingen genom att utgå ifrån planområdet för gällande planer, fastighet (genom planens berörkrets) eller direkt genom sökning på planbeteckning i adressfältet. För direktslagningar genom "Plandokumentsapplikationen" se nedan avsnitt <a asp-route="Om" asp-fragment="avsnitt1-2">1.2 Adressfält i webbläsare</a>. "Medarbetarkartan" och "Landskronakartan" är begränsade till plandokumenten plankarta, planbeskrivning och genomförandebeskrivning. 
     </p>
     <p>
         Alternativen nedan kan användas när objekt väljs/markeras i kartan. Plandokument tillhörande en plan åt gången går att ladda ner eller öppna.
@@ -131,11 +131,10 @@
         Lagergruppen ”Fastighet mm” innehåller ytterligare en lagergrupp ”Fastigheter” på samma sätt som för gällande planer i lagergrupp planer (se avsnitt ovan). Genom att använda sig av fastighet som ingång till planer väljs plan beroende av vilka fastigheter en plan berör. En plans s.k. berörkrets är registrerad i fastighetsregistret.
     </p>
     <p>
-        Värt att notera är att fastighetens område är klickbar/markerbar i kartans alla skalor. Fastighetsavgränsning visas först från skala 1:30 000 (skalan kan ses i kartfönstrets nedre högra hörn).
+        Värt att notera är att fastighetens område är klickbar/markerbar i kartans alla skalor. Fastighetsavgränsning visas fulllständigt först från skala 1:15 000, kvarters- och traktgränser något tidigare i skala 1:30 000 (skalan kan ses i kartfönstrets nedre högra hörn).
     </p>
     <img src="~/images/help/handlaggarkartan-fastigheter.png" alt="Karta med gällande planer" />
     <p>
-        Om andra lager, exempelvis gällande planer, är tända kan dessa dölja lagret med fastigheter och behöver bockas av/släckas. I annat fall blir inte fastigheterna klickbara/markeringsbara. <br />
         För att ladda ner eller öppna plandokumenten genom fastighet (via planens berörkrets) gör enligt följande:
     </p>
 
@@ -145,7 +144,7 @@
             <img src="~/images/help/handlaggarkartan-fastigheter-lager_ibockad.png" alt="Gällande plans utflaggade informationsruta" />
         </li>
         <li>
-            Sök upp fastigheten. Finns det en osäkerhet var fastigheten är avgränsad, se till så att skalan är större än eller lika med tidigare nämnda 1:30 000 för fastighetsavgränsningen samt större än eller lika med 1:5 000 för fastighetsbeteckningen.
+            Sök upp fastigheten. Finns det en osäkerhet var fastigheten är avgränsad, se till så att skalan är större än eller lika med tidigare nämnda 1:15 000 för fastighetsavgränsningen samt större än eller lika med 1:5 000 för fastighetsbeteckningen.
         </li>
         <li>
             Klicka på fastigheten. En informationsruta "Info" tänds upp och klicket markeras med en punkt med kryss i sig. <br />
