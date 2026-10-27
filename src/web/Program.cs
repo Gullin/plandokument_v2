@@ -246,6 +246,7 @@ if (!string.IsNullOrEmpty(basePath))
 
 
 
+// ########## Statiska filer och kataloger
 // Prepare validated static paths to register later when configuring middleware
 var validatedStaticPaths = new List<(string Physical, string Virtual)>();
 
@@ -274,6 +275,9 @@ else
 //}
 
 
+
+//// Hämta inställningarna till katalog med plandokument via IOptions
+//var path = app.Services.GetRequiredService<IOptions<PlanDocumentFiles>>().Value.RootPath;
 var staticPathPlanDocumentFilesConfig = builder.Configuration.GetSection("PlanDocumentFiles").Get<PlanDocumentFiles>();
 
 // Validate configured static paths and log/skips missing ones
@@ -302,19 +306,6 @@ if (staticPathPlanDocumentFilesConfig?.Paths != null)
     }
 }
 
-
-
-
-
-// ########## Statiska filer och kataloger
-//// Hämta inställningarna till katalog med plandokument via IOptions
-//var path = app.Services.GetRequiredService<IOptions<PlanDocumentFiles>>().Value.RootPath;
-//// Skapar upp virtuell katalog för att exponera plan-dokument
-//app.UseStaticFiles(new StaticFileOptions
-//{
-//    FileProvider = new PhysicalFileProvider(path),
-//    RequestPath = "/dokument"
-//});
 app.UseStaticFiles();
 // Lägg till extra kataloger dynamiskt från appsettings.json
 // Hämta inställningarna till katalog med plandokument via IOptions
@@ -330,12 +321,6 @@ if (validatedStaticPaths.Count > 0)
         });
     }
 }
-//app.UseStaticFiles(new StaticFileOptions
-//{
-//    FileProvider = new PhysicalFileProvider(
-//        zipTempPath),
-//    RequestPath = "/zipTemp"
-//});
 
 
 
