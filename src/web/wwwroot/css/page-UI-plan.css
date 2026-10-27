@@ -13,11 +13,16 @@
     display: block;
 	cursor: pointer;
 	position: relative;
-	margin-top: 2px;
-    margin-left: 2px;
+    margin: 2px 0px 0px 2px;
 	padding: .5em .5em .5em 2.2em;
 	min-height: 0; /* support: IE7 */
 }
+    .planLista-header h3 {
+        display: inline-block;
+        margin: 0;
+        font-size: 1em;
+        font-weight: bold;
+    }
 
 .planLista-content {
     padding: 1em 2.2em;
@@ -100,7 +105,7 @@
 
 .arkivSerier {
     cursor: pointer;
-    display: block;
+    /*display: block;*/
     overflow: hidden;
     position: absolute;
     /*right: .5em;*/
