@@ -31,9 +31,9 @@ public class AdOrUserAdminsHandler : AuthorizationHandler<AdOrUserAdminsRequirem
         if (context.User?.Identity?.IsAuthenticated != true)
             return Task.CompletedTask;
 
-        var allowedUsers = _authOptions.Admins.AllowedUsers ?? Array.Empty<string>();
+        var allowedUsers = _authOptions.Admins.AllowedUsers ?? ["(inga listade)"];
 
-        var allowedGroups = _authOptions.Admins.AllowedGroups ?? Array.Empty<string>();
+        var allowedGroups = _authOptions.Admins.AllowedGroups ?? ["(inga listade)"];
 
         var userName = context.User.Identity?.Name;
 
