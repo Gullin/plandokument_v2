@@ -57,12 +57,6 @@
  *@
 
     <div id="feedback">
-        @if ((await AuthorizationService.AuthorizeAsync(ViewContext.HttpContext.User, "AdOrUserAdmins")).Succeeded)
-        {
-            <a asp-route="Admin" title="Administrering av innehåll">
-                <i id="admin" class="bi bi-motherboard"></i>
-            </a>
-        }
         <a asp-route="Karta" title="Visar alla planer i en interaktiv karta">
             <i id="map" class="bi bi-compass"></i>
         </a>
@@ -75,6 +69,17 @@
         <a href="mailto:gis@landskrona.se?Subject=Webbapplikation Plandokument" title="Lämna synpunkter eller rapportera fel">
             <i id="mail" class="bi bi-envelope"></i>
         </a>
+        @if ((await AuthorizationService.AuthorizeAsync(ViewContext.HttpContext.User, "AdOrUserAdmins")).Succeeded)
+        {
+            <hr />
+            
+            <a asp-route="Admin" title="Administrering av innehåll">
+                <i id="admin" class="bi bi-motherboard"></i>
+            </a>
+            <a href="@Url.Content("~/api")" title="API-dokumentation">
+                <i id="api" class="bi bi-braces"></i>
+            </a>
+        }
     </div>
 
     <div id="copyrightWrapper">
