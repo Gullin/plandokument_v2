@@ -704,8 +704,8 @@ class MapBackground {
                         });
                         // Bygg popup-innehåll
                         const html = `
-                        <div style="min-width:200px; font-size: 1.2em;">
-                            <h6>Plan ${id}</h6>
+                        <div style="margin: 0.5em; min-width: 200px; font-size: 1.2em; line-height: 1.5;">
+                            <h6 style="margin-bottom: 1em; font-weight: bold;">Plan ${id}</h6>
                             <p><a href="${Lkr.Plan.Dokument.resolvedClientUrl}/dokument/${id}" target="_blank">Dokument<span class="linkNewWindow" style="top: 0px; left: 0px;" title="Öppnar länk i nytt webbläsarfönster"></span></a></p>
                             ${jumpLinks}
                         </div>`;
