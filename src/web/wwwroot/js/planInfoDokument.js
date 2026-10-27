@@ -1636,7 +1636,8 @@ function putMapOfPlan(planID) {
     var $animatedMapDiv = $("<div id='mapLoadDiv-" + planID + "'></div>");
     $animatedMapDiv.css('text-align', 'center');
     $animatedMapDiv.addClass('mapGeneratingGif');
-    $animatedMapDiv.append("<img id='getingMap-" + planID + "' src='" + urlBasePath + "pic/animated_windows8_64.GIF' />");
+    console.log("planID: ", planID, "urlBasePath: ", urlBasePath);
+    $animatedMapDiv.append("<img id='getingMap-" + planID + "' src='" + urlBasePath + "/images/animated_windows8_64.GIF' />");
     $animatedMapDiv.append("<br /><br /><span>Kartbild hämtas...</span>");
 
     $('#map-' + planID).find('div, img').remove();
