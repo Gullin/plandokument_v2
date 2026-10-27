@@ -12,9 +12,11 @@ a, a:visited, a:hover {
     }
 
 #versionWrapper {
+    font-size: 10px;
     position: fixed;
     top: 0em;
     right: 1em;
+    z-index: 100;
     color: inherit;
     color: rgb(150,150,150);
 }
@@ -77,6 +79,15 @@ a, a:visited, a:hover {
         #feedback i#admin:hover::before {
             content: "\F6E6";
         }
+
+        #feedback i#api::before {
+            content: "\F1C9";
+        }
+
+        #feedback i#api:hover::before {
+            content: "\F70E";
+        }
+
         #feedback i#map::before {
             content: "\F47F";
         }
@@ -84,6 +95,7 @@ a, a:visited, a:hover {
         #feedback i#map:hover::before {
             content: "\F47E";
         }
+
         #feedback i#allPlanes::before {
             content: "\F479";
         }
