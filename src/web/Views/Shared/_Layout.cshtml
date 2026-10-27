@@ -29,6 +29,18 @@
 </head>
 <body>
     <div id="versionWrapper">
+        @if ((await AuthorizationService.AuthorizeAsync(ViewContext.HttpContext.User, "AdOrUserAdmins")).Succeeded)
+            {
+                <span title="@("Administratörsbehörighet" +
+                (string.IsNullOrWhiteSpace(User.Identity?.Name)
+                    ? ""
+                    : ", " + User.Identity.Name) +
+                (string.IsNullOrWhiteSpace(User.Identity?.AuthenticationType)
+                    ? ""
+                    : " (" + User.Identity.AuthenticationType + ")"))"
+                style="font-size: 10px; letter-spacing: 0.1rem; cursor: default;" class="badge badge-pill badge-danger">ADMIN</span>@: | 
+            }
+
         <a asp-route="Version" title="Om versioner och historik">
             @(string.IsNullOrEmpty(ViewData["VersionInfo"] as string) ? "N/A" : ViewData["VersionInfo"])
         </a>
