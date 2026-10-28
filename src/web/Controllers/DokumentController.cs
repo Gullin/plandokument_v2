@@ -98,11 +98,24 @@ public class DokumentController : BasController
 
     [HttpGet("/dokument/alla", Name = "DokumentAlla")]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public IActionResult DokumentAlla()
+    public async Task<IActionResult> DokumentAlla()
     {
         result.Message = "Alla";
 
-        //TODO: ta fram alla
+        IEnumerable<PlanBas> plans = await _planBasCacheService.GetOrRefreshAsync();
+
+        result.Plans.AddRange(plans.Select(row => new PlanSearchResult
+        {
+            Nyckel = row.Register.plan_id,
+            Akt = row.Register.lmakt,
+            AktEgen = row.Register.egn_akt,
+            AktPb = row.Geometri.akt_pb,
+            PlanFk = row.Register.planfk,
+            PlanNamn = row.Register.plannamn,
+            IsGenomf = Convert.ToBoolean(row.Register.isgenomf),
+            Begrepp = null,
+            SearchedString = null
+        }));
 
         return View("Views/Alla.cshtml", result);
     }
