@@ -113,6 +113,10 @@
                                             clickedButton.disabled = true;
                                             clickedButton.style.cursor = "default";
                                             clickedButton.classList.remove("button-plan-animation");
+                                            const closeDocumentButton = document.getElementById("closeDocumentButton");
+                                            closeDocumentButton.disabled = false;
+                                            closeDocumentButton.classList.add("button-plan-animation");
+                                            closeDocumentButton.style.cursor = "pointer";
                                             const referencedRow = clickedButton.parentNode.closest("tr")
                                             const newRow = document.createElement("tr");
                                             newRow.setAttribute("id","DocumentRow");

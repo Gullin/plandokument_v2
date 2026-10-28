@@ -96,9 +96,12 @@ class CustomTable {
         clearButton.addEventListener("click", () => this.clearSort());
         clearButton.title = "Plocka bort sortering (enl. hämtad data)";
         const closeDocumentButton = document.createElement("button");
-        closeDocumentButton.classList.add("button-plan", "button-plan-animation", "button-close-document-row");
+        closeDocumentButton.classList.add("button-plan", "button-close-document-row");
         closeDocumentButton.addEventListener("click", () => this.closeDocumenRow());
+        closeDocumentButton.setAttribute("id","closeDocumentButton");
         closeDocumentButton.title = "Stänger visning av plans plandokument";
+        closeDocumentButton.disabled = true;
+        closeDocumentButton.style.cursor = "default";
         const toTopButton = document.createElement("button");
         toTopButton.classList.add("button-plan","button-plan-animation","button-to-top");
         toTopButton.addEventListener("click", () => this.toTop());
@@ -279,6 +282,12 @@ class CustomTable {
             prevButton.disabled = false;
             r.remove();
         }
+
+        const closeDocumentButton = document.getElementById("closeDocumentButton");
+        closeDocumentButton.disabled = true;
+        closeDocumentButton.classList.remove("button-plan-animation");
+        closeDocumentButton.style.cursor = "default";
+
     }
 
     toTop() {
