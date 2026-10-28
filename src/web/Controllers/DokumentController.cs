@@ -6,7 +6,6 @@ using Plandokument.Application.Options.Application;
 using Plandokument.Application.Services;
 using Plandokument.Domain.Entities;
 using Plandokument.Domain.Search;
-using Plandokument.Infrastructure.Logging;
 using System.Diagnostics;
 
 namespace Plandokument.Controllers;
@@ -117,6 +116,8 @@ public class DokumentController : BasController
             SearchedString = null
         }));
 
+        ViewData["Title"] = $"Alla {plans.Count().ToString()} st. planer";
+
         return View("Views/Alla.cshtml", result);
     }
 
@@ -150,6 +151,9 @@ public class DokumentController : BasController
         );
 
         result.Message = "Allmän sökning";
+
+        await SetPageTitle(result.Plans);
+
         return View("Views/Dokument.cshtml", result);
     }
 
@@ -165,7 +169,7 @@ public class DokumentController : BasController
         if (query is null) return NoContent();
 
         var timeStamp = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
-        var stopWatch= Stopwatch.StartNew();
+        var stopWatch = Stopwatch.StartNew();
 
         result.IsSearched = true;
         var parts = signals.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
@@ -194,6 +198,9 @@ public class DokumentController : BasController
         );
 
         result.Message = "Avancerad sökning";
+
+        await SetPageTitle(result.Plans);
+
         return View("Views/Dokument.cshtml", result);
     }
 
@@ -321,6 +328,29 @@ public class DokumentController : BasController
                 .ToList());
 
         return distinctResults;
+    }
+
+
+    private async Task SetPageTitle(List<PlanSearchResult> result)
+    {
+        if (result != null && result.Count > 0)
+        {
+            switch (result.Count)
+            {
+                case 1:
+                    ViewData["Title"] = result.First().Akt;
+                    break;
+                case 2:
+                    ViewData["Title"] = $"{result.First().Akt}, {result.Last().Akt}";
+                    break;
+                case 3:
+                    ViewData["Title"] = $"{result.First().Akt}, ... , {result.Last().Akt}";
+                    break;
+                default:
+                    ViewData["Title"] = $"{result.First().Akt}, ... ({(result.Count - 2).ToString()} st) ... , {result.Last().Akt}";
+                    break;
+            }
+        }
     }
 
 }

@@ -7,7 +7,14 @@
 <head>
     <base href="~/" />
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+
+    <title>
+        @(ViewData["Title"] is string title &&
+          !string.IsNullOrWhiteSpace(title)
+            ? $"{title} | Plandokumentsapplikationen"
+            : "Plandokumentsapplikationen")
+    </title>
+
     <link rel="icon" type="image/x-icon" href="~/images/favicon.ico" />
 
     <link rel="stylesheet" href="~/css/reset.css" />
