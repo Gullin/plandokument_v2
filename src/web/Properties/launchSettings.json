@@ -26,8 +26,11 @@
       //"launchUrl": "dokument/12-LAN-493",
       //"launchUrl": "dokument/1282K-P01/179",
       //"launchUrl": "dokument/karta",
-      //"launchUrl": "dokument/alla",
-      "launchUrl": "dokument",
+      "launchUrl": "dokument/alla",
+      //"launchUrl": "dokument/om",
+      //"launchUrl": "dokument",
+      //"launchUrl": "dokument/version",
+      //"launchUrl": "api",
       "applicationUrl": "https://localhost:7180",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -37,7 +40,8 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       //"launchUrl": "dokument",
-      "launchUrl": "api",
+      //"launchUrl": "api",
+      "launchUrl": "dokument/om",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
