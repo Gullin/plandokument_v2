@@ -309,9 +309,9 @@ async function getSearchedPlans() {
                             }
                         });
                         if (isPlanContentDivsVisible) {
-                            divExpCol.text("Komprimera alla planer");
+                            divExpCol.text("Fäll ihop planer");
                         } else {
-                            divExpCol.text("Expandera alla planer");
+                            divExpCol.text("Expandera planer");
                         }
 
                     });
@@ -1549,12 +1549,12 @@ function initialExpandCollapsAll() {
         }
     });
     if (isVisible) {
-        newDivExpCol.text("Komprimera alla planer");
+        newDivExpCol.text("Fäll ihop planer");
     } else {
-        newDivExpCol.text("Expandera alla planer");
+        newDivExpCol.text("Expandera planer");
     }
 
-    // Ansluta funktion till DIV för kollappsa eller expandera alla planer i planlistan
+    // Ansluta funktion till DIV för kollapsa eller expandera planer i planlistan
     newDivExpCol.click(async function () {
         var $expcol = $(this);
         var isVisible = false;
@@ -1576,7 +1576,7 @@ function initialExpandCollapsAll() {
             $planHeaders.addClass("planLista-header-default planLista-corner-all");
             $planHeaderIcons.removeClass("planLista-header-active-icon");
             $planHeaderIcons.addClass("planLista-header-default-icon");
-            $expcol.text("Expandera alla planer");
+            $expcol.text("Expandera planer");
         } else {
             // Redan startade ajax-request som ej gett svar avslutas innan initiering av nya (motverkar ev. dubblering av information
             if (Lkr.Plan.AjaxCalls.putMapOfPlan != null) {
@@ -1604,7 +1604,7 @@ function initialExpandCollapsAll() {
             $planHeaderIcons.removeClass("planLista-header-default-icon");
             $planHeaders.addClass("planLista-header-active planLista-corner-top");
             $planHeaderIcons.addClass("planLista-header-active-icon");
-            $('#expcol').text("Komprimera alla planer");
+            $('#expcol').text("Fäll ihop planer");
 
             // Skapa vektor av alla listade planers plan-ID
             var planIds = [];
@@ -1636,7 +1636,6 @@ function putMapOfPlan(planID) {
     var $animatedMapDiv = $("<div id='mapLoadDiv-" + planID + "'></div>");
     $animatedMapDiv.css('text-align', 'center');
     $animatedMapDiv.addClass('mapGeneratingGif');
-    console.log("planID: ", planID, "urlBasePath: ", urlBasePath);
     $animatedMapDiv.append("<img id='getingMap-" + planID + "' src='" + urlBasePath + "/images/animated_windows8_64.GIF' />");
     $animatedMapDiv.append("<br /><br /><span>Kartbild hämtas...</span>");
 
