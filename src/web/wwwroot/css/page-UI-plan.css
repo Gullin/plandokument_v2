@@ -283,7 +283,7 @@
 }
 
 .planContent-affected-warning {
-    background-image: url('../pic/warning.png');
+    background-image: url('../images/warning.png');
     background-repeat: no-repeat;
     background-position-y: center;
 }
