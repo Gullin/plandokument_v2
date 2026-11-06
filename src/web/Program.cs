@@ -343,6 +343,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Definerar standard route för root ("/") som omdirigerar till "/dokument" med permanent redirect (301).
+app.MapGet("/", () => Results.Redirect("/dokument", permanent: true));
 
 // Mappa controllers till routes, krävs för att aktivera attributrouting
 // Gör att [ApiController]-klasser blir tillgängliga på deras routes.
