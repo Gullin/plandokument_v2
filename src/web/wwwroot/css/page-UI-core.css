@@ -27,11 +27,13 @@ a, a:visited, a:hover {
 #feedback {
     position: fixed;
     right: 0px;
-    /*top: 300px;*/
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
     padding: 0px 0.5em;
+
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
 }
 
     #feedback a {
