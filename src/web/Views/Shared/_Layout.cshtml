@@ -1,5 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
+@{
+    // The filter has already reduced this to the final effective value:
+    // feature enabled AND controller/action explicitly requested AdminMeny.
+    var showAdminMeny = ViewData["ShowAdminMeny"] is true;
+}
 
 <!DOCTYPE html>
 
@@ -28,13 +33,32 @@
     <link rel="stylesheet" href="~/css/page-UI-plan.css" />
     <link rel="stylesheet" href="~/css/page-UI-popover.css" />
     <link rel="stylesheet" href="~/css/file-images-li.css" />
+
     <link rel="stylesheet" href="~/css/page-UI-map.css" />
+
+    <link rel="stylesheet" href="~/css/admin-meny.css" asp-append-version="true" />
+
 
     @RenderSection("Styles", required: false)
 
 
 </head>
 <body>
+    <div class="app-shell @(showAdminMeny ? "" : "no-sidebar")" id="appShell">
+        @if (showAdminMeny)
+        {
+            @await Html.PartialAsync("_AdminMeny")
+        }
+        <main class="main-content" id="mainContent">
+            @RenderBody()
+        </main>
+    </div>
+
+    @if (showAdminMeny)
+    {
+        <script src="~/js/admin-meny.js" asp-append-version="true"></script>
+    }
+
     <div id="versionWrapper">
         @if ((await AuthorizationService.AuthorizeAsync(ViewContext.HttpContext.User, "AdOrUserAdmins")).Succeeded)
             {

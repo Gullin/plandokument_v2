@@ -10,4 +10,5 @@ public class ApplicationSettings
     public string VersionSuffix { get; set; } = string.Empty;
     public Security.AuthorizationSettings Authorizations { get; set; } = new();
     public Search SearchParams { get; set; } = new();
+    public FeatureOptions Features { get; set; } = new();
 }

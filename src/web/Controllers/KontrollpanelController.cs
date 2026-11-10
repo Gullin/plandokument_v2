@@ -18,6 +18,7 @@ namespace Plandokument.Controllers
         [Authorize(Policy = "AdOrUserAdmins")]
         public IActionResult Index()
         {
+            ViewData["ShowAdminMeny"] = true;
             return View("Views/Kontrollpanel.cshtml");
         }
     }

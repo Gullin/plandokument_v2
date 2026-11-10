@@ -12,6 +12,8 @@ using Plandokument.Application.Options.Logging;
 using Plandokument.Application.Options.PlanDocumentFiles;
 using Plandokument.Application.Services;
 using Plandokument.Domain.Interfaces;
+using Plandokument.Features.FeatureManagement.Filters;
+using Plandokument.Features.FeatureManagement.Services;
 using Plandokument.Infrastructure;
 using Plandokument.Infrastructure.Background;
 using Plandokument.Infrastructure.Cache;
@@ -69,6 +71,18 @@ builder.Services.Configure<CachesSettings>(
 builder.Services.Configure<PlanDocumentFiles>(
     builder.Configuration.GetSection("PlanDocumentFiles"));
 //var staticPathConfig = builder.Configuration.GetSection("PlanDocumentFiles").Get<PlanDocumentFiles>();
+
+
+
+// ########## Features
+builder.Services.Configure<FeatureOptions>(builder.Configuration.GetSection("Application:Features"));
+builder.Services.AddScoped<IFeatureService, FeatureService>();
+builder.Services.AddScoped<FeatureFilter>();
+
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<FeatureFilter>();
+});
 
 
 

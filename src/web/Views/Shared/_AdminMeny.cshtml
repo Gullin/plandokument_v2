@@ -1,0 +1,31 @@
+<aside class="sidebar" id="sidebar">
+@*     <div class="sidebar-header">
+        <span class="sidebar-title">Meny</span>
+        <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Fäll ihop meny">☰</button>
+    </div>
+ *@
+
+    <div class="sidebar-header">
+        <button type="button"
+                class="sidebar-toggle"
+                id="sidebarToggle"
+                aria-label="Fäll ihop menyn"
+                aria-expanded="true"
+                title="Fäll ihop menyn">
+
+            <span class="toggle-icon" aria-hidden="true">☰</span>
+            <span class="menu-label">Plandokument</span>
+        </button>
+    </div>
+
+    <nav class="sidebar-menu" aria-label="Huvudmeny">
+        <div class="sidebar-menu-top" id="sidebarMenu">
+            @await Html.PartialAsync("admin-meny/_TopMenu")
+        </div>
+        <div class="sidebar-menu-bottom">
+            @await Html.PartialAsync("admin-meny/_BottomMenu")
+        </div>
+    </nav>
+
+    <div class="sidebar-resizer" id="sidebarResizer" aria-hidden="true"></div>
+</aside>

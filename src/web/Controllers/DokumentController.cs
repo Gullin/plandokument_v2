@@ -162,7 +162,7 @@ public class DokumentController : BasController
     // signals kan vara en eller flera signaler separerade med komma
     // För att inte fångas upp av statiska filer (css, js, images, lib) så används en regex constraint, i annat fall uppstår "catch-all rout".
     // Alla underkataloger under wwwroot som inte ska tolkas som signaler måste läggas till i regexen.
-    [HttpGet("{signals:regex(^(?!css|js|images|lib|api|plandokument|zipTemp).*)}/{*query}")]
+    [HttpGet("{signals:regex(^(?!css|js|images|lib|api|plandokument|zipTemp|beta).*)}/{*query}")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> DokumentSearch(string signals, string query)
     {
