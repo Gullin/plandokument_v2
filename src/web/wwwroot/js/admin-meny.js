@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const MAX_WIDTH = 480;
     const DEFAULT_WIDTH = 260;
 
+    const SIDEBAR_STATE_KEY = "adminMeny.sidebarCollapsed";
+
     let sidebarWidth = DEFAULT_WIDTH;
     let previousExpandedWidth = DEFAULT_WIDTH;
 
@@ -33,9 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    sidebarToggle.addEventListener("click", () => {
-        const collapsed =
-            appShell.classList.toggle("sidebar-collapsed");
+    function setSidebarState(collapsed) {
+        appShell.classList.toggle(
+            "sidebar-collapsed",
+            collapsed
+        );
 
         sidebarToggle.setAttribute(
             "aria-expanded",
@@ -57,6 +61,25 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!collapsed) {
             setSidebarWidth(previousExpandedWidth);
         }
+    }
+
+    function saveSidebarState(collapsed) {
+        localStorage.setItem(
+            SIDEBAR_STATE_KEY,
+            String(collapsed)
+        );
+    }
+
+    function loadSidebarState() {
+        return localStorage.getItem(SIDEBAR_STATE_KEY) === "true";
+    }
+
+    sidebarToggle.addEventListener("click", () => {
+        const collapsed =
+            appShell.classList.contains("sidebar-collapsed");
+
+        setSidebarState(!collapsed);
+        saveSidebarState(!collapsed);
     });
 
     sidebarResizer.addEventListener("pointerdown", event => {
@@ -206,4 +229,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     setSidebarWidth(DEFAULT_WIDTH);
+
+    // Återställ menyfällningen efter att grundläget har satts.
+    const collapsed = loadSidebarState();
+
+    setSidebarState(collapsed);
 });
